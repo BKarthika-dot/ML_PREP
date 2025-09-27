@@ -40,3 +40,58 @@ print(df.describe(include='all'))  #overall statistics both for numerical and ca
 print(df['Gender'].unique())        #unique values in given column
 print(df['Gender'].nunique())           #no of unique values in given column
 print(df['Gender'].value_counts())  #count for each unique value
+
+
+print(df['Marks'])
+print(df['Marks']>=90)    #prints boolean values for whether condition is satisfied
+print(df[df['Marks']>=90])    #prints exact case where the condititon is satisfied
+print(len(df[df['Marks']>=90]))    #prints number of cases where the condition is satisfied
+
+print(df['Marks'].between(30,90))   #prints boolean values for whether condition is satisfied
+print(sum(df['Marks'].between(30,90)))  #prints number of cases where the condition is satisfied
+
+print(df['Age'].mean())
+print(df['Marks'].min())
+print(df['Marks'].max())
+
+#declaring some method
+def marks(x):
+    return x/2
+
+print(df['Marks'].apply(marks))     #applying a user defined method to the column
+
+df['Half Marks']=df['Marks'].apply(marks)   #adding a new column to the data frame 
+print(df)
+
+
+df['mark weightage out of 15']=df['Marks'].apply(lambda x: x*15/100)   #adding new column by usinglambda function in apply() method
+print(df)
+
+print(df['Name'].apply(len))            #finds length of each name
+
+df["Gender value"]=(df['Gender'].map({'F':1,'M':0}))     #maps all F to 1 and all M to 0
+print(df)
+
+df.drop('Gender value',axis=1,inplace=True)   #drops a column from the same data frame
+print(df)
+
+df.drop(['Half Marks','mark weightage out of 15'],axis=1,inplace=True)  #to drop multiple columns at the same time dclare a list
+print(df)
+
+print(df.columns)  #columns is not a function its an inbuilt pandas attribute
+print(df.index)     #shows row indices
+
+df.sort_values(by='Marks',inplace=True)   #sorts based on marks in ascending order
+print(df)
+df.sort_values(by='Marks',inplace=True,ascending=False)   #descending order
+print(df)
+
+df.sort_values(by=['Marks','Age'],inplace=True)   #sorts based on 2 values
+print(df)
+
+
+#display name and marks of female students only
+print(df[df['Gender']=='F'][['Name','Marks']])
+
+#display name of male students using isin method
+print(df[df['Gender'].isin(['M'])][['Name']])
