@@ -33,7 +33,7 @@ df=pd.read_csv("Ecommerce Customers.csv")
 X=df[['Avg. Session Length','Time on App','Time on Website','Length of Membership']] #predictive variables
 y=df['Yearly Amount Spent'] #target variable
 
-X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=42)   #we're hiding 30% of the data and going to train the model on the remaining 70% then we'll check if it performs well on the other 30%
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.3,random_state=17)   #we're hiding 30% of the data and going to train the model on the remaining 70% then we'll check if it performs well on the other 30%
 #print(X_train)
 #print(X_test)
 
