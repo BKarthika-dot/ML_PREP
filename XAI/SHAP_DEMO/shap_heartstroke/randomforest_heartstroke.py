@@ -10,7 +10,7 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import f1_score,accuracy_score
+from sklearn.metrics import f1_score,accuracy_score,precision_recall_curve,precision_score,recall_score,average_precision_score
 from imblearn.over_sampling import SMOTE
 import matplotlib.pyplot as plt
 import shap
@@ -80,3 +80,39 @@ shap.plots.waterfall(
         feature_names=X_test.columns
     )
 )
+
+from sklearn.metrics import roc_curve, auc
+import matplotlib.pyplot as plt
+
+# Predict probabilities (positive class)
+rf_probs = rf.predict_proba(X_test)[:, 1]
+
+# Compute ROC
+fpr_rf, tpr_rf, _ = roc_curve(y_test, rf_probs)
+auc_rf = auc(fpr_rf, tpr_rf)
+
+# Plot
+plt.figure()
+plt.plot(fpr_rf, tpr_rf)
+plt.plot([0, 1], [0, 1])
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title(f"Random Forest ROC Curve (AUC = {auc_rf:.4f})")
+plt.show()
+
+print("Random Forest AUC:", auc_rf)
+
+
+rf_probs = rf.predict_proba(X_test)[:, 1]
+rf_preds = rf.predict(X_test)
+
+rf_precision = precision_score(y_test, rf_preds)
+rf_recall = recall_score(y_test, rf_preds)
+rf_f1 = f1_score(y_test, rf_preds)
+rf_pr_auc = average_precision_score(y_test, rf_probs)
+
+print("Random Forest Metrics")
+print("Precision:", rf_precision)
+print("Recall:", rf_recall)
+print("F1:", rf_f1)
+print("PR AUC:", rf_pr_auc)
